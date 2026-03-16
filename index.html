@@ -1310,9 +1310,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             // Reset to start
                             carouselTrack.scrollTo({ left: 0, behavior: 'instant' });
                         } else {
-                            carouselTrack.scrollBy({ left: 2, behavior: 'instant' });
+                            carouselTrack.scrollBy({ left: 1, behavior: 'instant' });
                         }
-                    }, 40); // Runs 25fps for slow pan
+                    }, 45); // Slower crawl: 1px every 45ms (approx 22px per second)
                 }
                 
                 function stopAutoScroll() {
