@@ -378,41 +378,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 --tvs-dark: #111827;
                 --tvs-accent: #3B82F6;
             }
-        
-            /* Fix Header Visibility & Layout */
-            .tvs-hero {
-                /* We set the background to the dark blue so the transparent header is visible */
-                background-color: var(--tvs-blue);
-                background-image: linear-gradient(to right, rgba(28, 43, 63, 0.95), rgba(42, 63, 92, 0.8)), url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/image1.webp');
-                background-size: cover;
-                background-position: center;
-                background-attachment: fixed;
-                color: white;
-                padding: 220px 5% 100px; /* high top padding to clear absolute header */
-                text-align: center;
-                position: relative;
-            }
-            .tvs-hero::after {
-                content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50px;
-                background: linear-gradient(to bottom, transparent, var(--tvs-light));
-            }
-            
-            .tvs-hero h1 {
-                font-size: 56px;
-                font-weight: 800;
-                text-transform: uppercase;
-                letter-spacing: 2px;
-                margin: 0;
-                font-family: 'Poppins', sans-serif;
-            }
-            .tvs-hero-subtitle {
-                font-size: 18px;
-                color: #cbd5e1;
-                margin-top: 15px;
-                font-family: 'Poppins', sans-serif;
-                font-weight: 300;
-                letter-spacing: 1px;
-            }
 
             /* Featured Projects Section */
             .tvs-featured-section {
@@ -421,14 +386,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 font-family: 'Poppins', sans-serif;
             }
             
-            .tvs-section-title {
+            .tvs-section-title-wrap {
                 text-align: center;
-                font-size: 40px;
+                margin-bottom: 90px;
+            }
+            .tvs-section-title {
+                display: inline-block;
+                font-size: 46px;
                 color: var(--tvs-blue);
-                margin-bottom: 80px;
-                font-weight: 800;
+                margin: 0;
+                font-weight: 900;
                 text-transform: uppercase;
-                letter-spacing: 1px;
+                letter-spacing: 2px;
+                position: relative;
+            }
+            .tvs-section-title::after {
+                content: '';
+                position: absolute;
+                bottom: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 5px;
+                background: var(--tvs-blue);
+                border-radius: 3px;
             }
             
             .tvs-featured-row {
@@ -508,19 +489,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 display: flex;
                 justify-content: center;
                 gap: 15px;
-                margin-bottom: 50px;
+                margin-bottom: 60px;
                 flex-wrap: wrap;
             }
             
             .tvs-filter-btn {
                 background: transparent;
-                border: 1px solid #d1d5db;
-                color: var(--tvs-grey);
+                border: 2px solid var(--tvs-blue);
+                color: var(--tvs-blue);
                 padding: 12px 28px;
                 font-size: 13px;
-                font-weight: 600;
+                font-weight: 700;
                 text-transform: uppercase;
-                border-radius: 2px;
+                border-radius: 4px;
                 cursor: pointer;
                 transition: all 0.3s ease;
                 letter-spacing: 1.5px;
@@ -671,21 +652,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     gap: 30px;
                     margin-bottom: 80px;
                 }
-                .tvs-hero h1 { font-size: 42px; }
             }
             @media (max-width: 768px) {
-                .tvs-hero h1 { font-size: 32px; }
                 .tvs-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+                .tvs-section-title { font-size: 32px; }
             }
         </style>
 
-        <section class="tvs-hero">
-            <h1>Our Capabilities & Portfolio</h1>
-            <div class="tvs-hero-subtitle">Premium structural steel crafted in Boise, Idaho</div>
-        </section>
+        <!-- Use exact original container from gallery.html so external elementor CSS links match perfectly -->
+        <div class="elementor-element elementor-element-9e994e0 e-flex e-con-boxed e-con e-parent" data-id="9e994e0" data-element_type="container" data-e-type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}" style="min-height: 480px; align-items: center; justify-content: center; display: flex;">
+            <div class="e-con-inner" style="width: 100%;">
+                <div class="elementor-element elementor-element-c0cfdf2 elementor-widget elementor-widget-heading" data-id="c0cfdf2" data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+                    <div class="elementor-widget-container" style="text-align: center;">
+                        <h1 class="elementor-heading-title elementor-size-default" style="color: white !important; font-size: 56px; font-weight: 800; font-family: 'Poppins', sans-serif; text-transform: uppercase; margin: 0; padding-top: 100px;">Our Capabilities & Portfolio</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <section class="tvs-featured-section">
-            <h2 class="tvs-section-title">Highlighted Projects</h2>
+            <div class="tvs-section-title-wrap">
+                <h2 class="tvs-section-title">Highlighted Projects</h2>
+            </div>
             
         <div class="tvs-featured-row ">
             <div class="tvs-featured-image-wrap">
@@ -860,7 +848,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </section>
 
         <section class="tvs-gallery-section" id="tvs-gallery">
-            <h2 class="tvs-section-title">Full Visual Gallery</h2>
+            <div class="tvs-section-title-wrap">
+                <h2 class="tvs-section-title">Full Visual Gallery</h2>
+            </div>
             
             <div class="tvs-filter-container">
                 <button class="tvs-filter-btn active" data-filter="all">All Photos</button>
@@ -1237,10 +1227,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         if (filter === 'all' || img.category === filter) {
                             const item = document.createElement('div');
                             item.className = 'tvs-grid-item';
-                            // The innerHTML needs to use backticks, since it's JS string inside the build script. 
-                            // In build.js, we don't escape it if we just use normal string concat, 
-                            // OR we can use backticks inside backticks if we carefully escape.
-                            // Better yet, just use single quotes + concat to avoid parsing issues!
                             item.innerHTML = '<img src="' + img.src + '" alt="' + img.title + '" loading="lazy">' +
                                              '<div class="tvs-grid-item-overlay">' +
                                                  '<h3>' + img.title + '</h3>' +
