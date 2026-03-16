@@ -511,8 +511,8 @@ const newContent = `
                     
                     // Only scroll if we aren't clicking or hovering
                     if (!isDown && !isHovering) {
-                        // 25 pixels per second = 0.025 pixels per millisecond
-                        scrollFloat += 0.025 * deltaTime;
+                        // 80 pixels per second = 0.08 pixels per millisecond
+                        scrollFloat += 0.08 * deltaTime;
                         
                         // If hit the end, reset seamlessly
                         if(Math.floor(scrollFloat) + carouselTrack.clientWidth >= carouselTrack.scrollWidth - 5) {
