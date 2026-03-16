@@ -47,10 +47,44 @@ const featuredProjectsWithImages = featuredProjects.map((proj, i) => {
     };
 });
 
+// Extract specific tab contents to map images to correct categories
+const getTabContent = (html, tabTitle) => {
+    // Find the ID of the tab based on its title
+    const titleRegex = new RegExp(`<div[^>]*id="([^"]+)"[^>]*>[\\s\\S]*?${tabTitle}[\\s\\S]*?<\\/div>`, 'i');
+    const titleMatch = html.match(titleRegex);
+    
+    if (!titleMatch) return "";
+    
+    const tabId = titleMatch[1];
+    // Find the corresponding content panel
+    // The panel ID usually matches or relates to the title ID, or we can just search for the title text first
+    // In elementor tabs, title is e-n-tab-title-XXX and content is e-n-tab-content-XXX
+    const baseId = tabId.replace('e-n-tab-title-', '');
+    const contentRegex = new RegExp(`<div[^>]*id="e-n-tab-content-${baseId}"[\\s\\S]*?(?=<div[^>]*id="e-n-tab-content-|<footer>|<\\/main>)`, 'i');
+    
+    const contentMatch = html.match(contentRegex);
+    return contentMatch ? contentMatch[0] : "";
+};
+
+const homeSweetHomeHtml = getTabContent(galleryHtml, 'Home Sweet Home');
+const interiorDesignHtml = getTabContent(galleryHtml, 'Interior Design');
+const localHtml = getTabContent(galleryHtml, 'Local');
+
 const imagesJsObj = uniqueUrls.map((url, index) => {
-    let cat = 'residential';
-    if (url.includes('commercial') || index % 3 === 0) cat = 'commercial';
-    if (url.includes('interior') || index % 5 === 0) cat = 'interior';
+    let cat = 'residential'; // default fallback shouldn't be needed but just in case
+    
+    // Check which block contains the URL
+    if (homeSweetHomeHtml.includes(url)) {
+        cat = 'residential';
+    } else if (interiorDesignHtml.includes(url)) {
+        cat = 'interior';
+    } else if (localHtml.includes(url)) {
+        cat = 'commercial';
+    } else {
+        // If it's only in 'Projects', default to residential to show somewhere, or keep as 'all'
+        // User requested matching the specific tabs to filters.
+        cat = 'residential'; 
+    }
     
     const filename = url.split('/').pop().split('.')[0];
     const cleanTitle = filename.replace(/[-_0-9A-F]+/g, ' ').trim() || 'Steel Project';
