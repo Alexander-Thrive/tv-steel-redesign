@@ -68,13 +68,17 @@ uniqueUrls.forEach((url, index) => {
         cat = 'commercial';
     }
     
-    const filename = url.split('/').pop().split('.')[0];
-    const cleanTitle = filename.replace(/[-_0-9A-F]+/g, ' ').trim() || 'Steel Project';
+    const categoryLabels = {
+        'residential': 'Residential',
+        'interior': 'Interior',
+        'commercial': 'Commercial',
+        'projects': 'Project'
+    };
     
     imagesJsObj.push({
         src: url,
         category: cat,
-        title: cleanTitle.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+        title: categoryLabels[cat] || 'Project'
     });
 });
 
