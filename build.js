@@ -47,31 +47,17 @@ const featuredProjectsWithImages = featuredProjects.map((proj, i) => {
     };
 });
 
-// Extract specific tab contents to map images to correct categories
-const getTabContent = (html, tabTitle) => {
-    // Find the ID of the tab based on its title
-    const titleRegex = new RegExp(`<div[^>]*id="([^"]+)"[^>]*>[\\s\\S]*?${tabTitle}[\\s\\S]*?<\\/div>`, 'i');
-    const titleMatch = html.match(titleRegex);
-    
-    if (!titleMatch) return "";
-    
-    const tabId = titleMatch[1];
-    // Find the corresponding content panel
-    // The panel ID usually matches or relates to the title ID, or we can just search for the title text first
-    // In elementor tabs, title is e-n-tab-title-XXX and content is e-n-tab-content-XXX
-    const baseId = tabId.replace('e-n-tab-title-', '');
-    const contentRegex = new RegExp(`<div[^>]*id="e-n-tab-content-${baseId}"[\\s\\S]*?(?=<div[^>]*id="e-n-tab-content-|<footer>|<\\/main>)`, 'i');
-    
-    const contentMatch = html.match(contentRegex);
-    return contentMatch ? contentMatch[0] : "";
-};
+// Extract specific tab contents manually using the known Elementor structure
+const homeSweetHomeHtml = galleryHtml.split('id="e-n-tab-content-1375021342"')[1]?.split('id="e-n-tab-content-1375021343"')[0] || "";
+const interiorDesignHtml = galleryHtml.split('id="e-n-tab-content-1375021343"')[1]?.split('id="e-n-tab-content-1375021344"')[0] || "";
+const localHtml = galleryHtml.split('id="e-n-tab-content-1375021344"')[1]?.split('<footer')[0] || "";
 
-const homeSweetHomeHtml = getTabContent(galleryHtml, 'Home Sweet Home');
-const interiorDesignHtml = getTabContent(galleryHtml, 'Interior Design');
-const localHtml = getTabContent(galleryHtml, 'Local');
+const imagesJsObj = [];
+uniqueUrls.forEach((url, index) => {
+    // Drop known non-gallery images that got scraped by the regex
+    if (url.includes('footer-bg') || url.includes('BLACK-WHITE-TR-e1743633743915')) return;
 
-const imagesJsObj = uniqueUrls.map((url, index) => {
-    let cat = 'residential'; // default fallback shouldn't be needed but just in case
+    let cat = 'projects'; // Defaults to "All" behavior but won't show under specific tabs
     
     // Check which block contains the URL
     if (homeSweetHomeHtml.includes(url)) {
@@ -80,20 +66,16 @@ const imagesJsObj = uniqueUrls.map((url, index) => {
         cat = 'interior';
     } else if (localHtml.includes(url)) {
         cat = 'commercial';
-    } else {
-        // If it's only in 'Projects', default to residential to show somewhere, or keep as 'all'
-        // User requested matching the specific tabs to filters.
-        cat = 'residential'; 
     }
     
     const filename = url.split('/').pop().split('.')[0];
     const cleanTitle = filename.replace(/[-_0-9A-F]+/g, ' ').trim() || 'Steel Project';
     
-    return {
+    imagesJsObj.push({
         src: url,
         category: cat,
         title: cleanTitle.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
-    };
+    });
 });
 
 // Build Carousel Slides
