@@ -368,56 +368,140 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				</header>
 <main id="main" class="site-main" role="main">
     <div data-elementor-type="wp-page" data-elementor-id="320" class="elementor elementor-320" data-elementor-post-type="page">
-        <!-- New High-End Design Goes Here -->
+        
         <style>
-            .tvs-gallery-section {
-                background: #fdfdfd; /* Clean light background for high-end look */
+            :root {
+                --tvs-blue: #1C2B3F;
+                --tvs-blue-light: #2A3F5C;
+                --tvs-grey: #6B7280;
+                --tvs-light: #F3F4F6;
+                --tvs-dark: #111827;
+                --tvs-accent: #3B82F6;
+            }
+        
+            /* Fix Header Visibility & Layout */
+            .tvs-hero {
+                /* We set the background to the dark blue so the transparent header is visible */
+                background-color: var(--tvs-blue);
+                background-image: linear-gradient(to right, rgba(28, 43, 63, 0.95), rgba(42, 63, 92, 0.8)), url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/image1.webp');
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+                color: white;
+                padding: 220px 5% 100px; /* high top padding to clear absolute header */
+                text-align: center;
+                position: relative;
+            }
+            .tvs-hero::after {
+                content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50px;
+                background: linear-gradient(to bottom, transparent, var(--tvs-light));
+            }
+            
+            .tvs-hero h1 {
+                font-size: 56px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                margin: 0;
+                font-family: 'Poppins', sans-serif;
+            }
+            .tvs-hero-subtitle {
+                font-size: 18px;
+                color: #cbd5e1;
+                margin-top: 15px;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 300;
+                letter-spacing: 1px;
+            }
+
+            /* Featured Projects Section */
+            .tvs-featured-section {
+                background: var(--tvs-light);
                 padding: 100px 5%;
                 font-family: 'Poppins', sans-serif;
-                color: #2D394A; /* Brand dark blue/slate */
-                position: relative;
-                overflow: hidden;
             }
-            .tvs-gallery-section::before {
-                content: '';
-                position: absolute;
-                top: 0; left: 0; width: 100%; height: 100%;
-                background-image: linear-gradient(135deg, rgba(200, 35, 51, 0.03) 0%, rgba(200, 35, 51, 0) 50%);
-                pointer-events: none;
-            }
-            .tvs-gallery-header {
-                text-align: center;
-                margin-bottom: 80px;
-                position: relative;
-                z-index: 2;
-            }
-            .tvs-gallery-subtitle {
-                color: #C82333; /* Brand red */
-                font-size: 14px;
-                font-weight: 700;
-                letter-spacing: 2px;
-                text-transform: uppercase;
-                margin-bottom: 15px;
-                position: relative;
-                display: inline-block;
-            }
-            .tvs-gallery-subtitle::before, .tvs-gallery-subtitle::after {
-                content: '';
-                position: absolute;
-                top: 50%;
-                width: 30px;
-                height: 2px;
-                background-color: #C82333;
-            }
-            .tvs-gallery-subtitle::before { right: -40px; }
-            .tvs-gallery-subtitle::after { left: -40px; }
             
-            .tvs-gallery-title {
-                font-size: 48px;
+            .tvs-section-title {
+                text-align: center;
+                font-size: 40px;
+                color: var(--tvs-blue);
+                margin-bottom: 80px;
                 font-weight: 800;
-                line-height: 1.2;
-                margin: 0;
                 text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            
+            .tvs-featured-row {
+                display: flex;
+                align-items: center;
+                gap: 60px;
+                margin-bottom: 100px;
+                max-width: 1200px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .tvs-featured-row.tvs-reverse {
+                flex-direction: row-reverse;
+            }
+            
+            .tvs-featured-image-wrap {
+                flex: 1.2;
+                position: relative;
+                border-radius: 4px;
+                overflow: hidden;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+                aspect-ratio: 16/10;
+            }
+            .tvs-featured-image {
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-position: center;
+                transition: transform 0.6s ease;
+            }
+            .tvs-featured-row:hover .tvs-featured-image {
+                transform: scale(1.05);
+            }
+            
+            .tvs-featured-content {
+                flex: 1;
+                padding: 40px 0;
+            }
+            .tvs-featured-kicker {
+                display: inline-block;
+                color: var(--tvs-grey);
+                font-weight: 600;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                font-size: 13px;
+                margin-bottom: 25px;
+                border-bottom: 2px solid var(--tvs-grey);
+                padding-bottom: 5px;
+            }
+            .tvs-spec-group {
+                margin-bottom: 30px;
+            }
+            .tvs-spec-group h4 {
+                font-size: 16px;
+                color: var(--tvs-blue);
+                margin: 0 0 5px 0;
+                text-transform: uppercase;
+                font-weight: 700;
+            }
+            .tvs-spec-group p {
+                font-size: 18px;
+                color: var(--tvs-dark);
+                margin: 0;
+                font-weight: 300;
+                line-height: 1.5;
+            }
+
+            /* Gallery Grid Section */
+            .tvs-gallery-section {
+                background: #ffffff;
+                padding: 100px 5%;
+                font-family: 'Poppins', sans-serif;
+                color: var(--tvs-blue);
             }
             
             .tvs-filter-container {
@@ -426,44 +510,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 gap: 15px;
                 margin-bottom: 50px;
                 flex-wrap: wrap;
-                position: relative;
-                z-index: 2;
             }
             
             .tvs-filter-btn {
                 background: transparent;
-                border: 2px solid #E5E7EB;
-                color: #4B5563;
-                padding: 10px 24px;
-                font-size: 14px;
+                border: 1px solid #d1d5db;
+                color: var(--tvs-grey);
+                padding: 12px 28px;
+                font-size: 13px;
                 font-weight: 600;
                 text-transform: uppercase;
-                border-radius: 4px;
+                border-radius: 2px;
                 cursor: pointer;
                 transition: all 0.3s ease;
-                letter-spacing: 1px;
+                letter-spacing: 1.5px;
             }
             
             .tvs-filter-btn.active, .tvs-filter-btn:hover {
-                background: #C82333;
-                border-color: #C82333;
+                background: var(--tvs-blue);
+                border-color: var(--tvs-blue);
                 color: white;
-                box-shadow: 0 4px 15px rgba(200, 35, 51, 0.3);
+                box-shadow: 0 4px 15px rgba(28, 43, 63, 0.2);
             }
             
             .tvs-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
                 gap: 30px;
-                position: relative;
-                z-index: 2;
+                max-width: 1400px;
+                margin: 0 auto;
             }
             
             .tvs-grid-item {
                 position: relative;
-                border-radius: 8px;
+                border-radius: 4px;
                 overflow: hidden;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.05);
                 aspect-ratio: 4/3;
                 cursor: pointer;
                 background: #fff;
@@ -482,7 +564,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 content: '';
                 position: absolute;
                 inset: 0;
-                background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%);
+                background: linear-gradient(to top, rgba(28, 43, 63, 0.85) 0%, rgba(28, 43, 63, 0) 60%);
                 opacity: 0;
                 transition: opacity 0.4s ease;
             }
@@ -502,11 +584,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             
             .tvs-grid-item-overlay h3 {
                 margin: 0;
-                font-size: 20px;
+                font-size: 18px;
                 font-weight: 600;
                 text-transform: uppercase;
                 letter-spacing: 1px;
-                border-left: 3px solid #C82333;
+                border-left: 3px solid var(--tvs-accent);
                 padding-left: 12px;
             }
             
@@ -523,8 +605,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             .tvs-lightbox {
                 position: fixed;
                 inset: 0;
-                background: rgba(15, 23, 42, 0.95);
-                backdrop-filter: blur(10px);
+                background: rgba(17, 24, 39, 0.98);
+                backdrop-filter: blur(5px);
                 z-index: 99999;
                 display: flex;
                 align-items: center;
@@ -543,7 +625,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 max-width: 90%;
                 max-height: 85vh;
                 border-radius: 4px;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
                 transform: scale(0.95);
                 transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             }
@@ -554,50 +636,234 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             
             .tvs-lightbox-close {
                 position: absolute;
-                top: 30px;
-                right: 30px;
+                top: 40px;
+                right: 40px;
                 color: white;
                 font-size: 40px;
                 line-height: 1;
                 cursor: pointer;
-                background: rgba(200, 35, 51, 0.8);
-                width: 50px;
-                height: 50px;
+                background: rgba(255, 255, 255, 0.1);
+                width: 60px;
+                height: 60px;
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transition: background 0.3s ease;
+                transition: all 0.3s ease;
             }
             .tvs-lightbox-close:hover {
-                background: #C82333;
+                background: var(--tvs-blue);
             }
             
             .tvs-lightbox-caption {
                 position: absolute;
-                bottom: 30px;
+                bottom: 40px;
                 color: white;
-                font-size: 18px;
-                font-weight: 500;
-                letter-spacing: 1px;
+                font-size: 16px;
+                font-weight: 400;
+                letter-spacing: 2px;
                 text-transform: uppercase;
             }
             
-            /* Media queries */
+            @media (max-width: 992px) {
+                .tvs-featured-row, .tvs-featured-row.tvs-reverse {
+                    flex-direction: column;
+                    gap: 30px;
+                    margin-bottom: 80px;
+                }
+                .tvs-hero h1 { font-size: 42px; }
+            }
             @media (max-width: 768px) {
-                .tvs-gallery-title { font-size: 32px; }
+                .tvs-hero h1 { font-size: 32px; }
                 .tvs-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
             }
         </style>
+
+        <section class="tvs-hero">
+            <h1>Our Capabilities & Portfolio</h1>
+            <div class="tvs-hero-subtitle">Premium structural steel crafted in Boise, Idaho</div>
+        </section>
         
-        <section class="tvs-gallery-section" id="tvs-gallery">
-            <div class="tvs-gallery-header">
-                <span class="tvs-gallery-subtitle">Our Work</span>
-                <h2 class="tvs-gallery-title">Photo Gallery</h2>
+        <section class="tvs-featured-section">
+            <h2 class="tvs-section-title">Highlighted Projects</h2>
+            
+        <div class="tvs-featured-row ">
+            <div class="tvs-featured-image-wrap">
+                <div class="tvs-featured-image" style="background-image: url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/WTHR-COPPER-SS-1-1.webp');"></div>
             </div>
+            <div class="tvs-featured-content">
+                <span class="tvs-featured-kicker">Featured Project 01</span>
+                <div class="tvs-spec-group">
+                    <h4>Panel Profile</h4>
+                    <p>3' Tuff Rib</p>
+                </div>
+                <div class="tvs-spec-group">
+                    <h4>Color & Finish</h4>
+                    <p>Shiny Black & White</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="tvs-featured-row tvs-reverse">
+            <div class="tvs-featured-image-wrap">
+                <div class="tvs-featured-image" style="background-image: url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/image1.webp');"></div>
+            </div>
+            <div class="tvs-featured-content">
+                <span class="tvs-featured-kicker">Featured Project 02</span>
+                <div class="tvs-spec-group">
+                    <h4>Panel Profile</h4>
+                    <p>7.2 & 3' Apex</p>
+                </div>
+                <div class="tvs-spec-group">
+                    <h4>Color & Finish</h4>
+                    <p>7.2 Ran in Shiny black & 3' Apex ran in Weathered Copper</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="tvs-featured-row ">
+            <div class="tvs-featured-image-wrap">
+                <div class="tvs-featured-image" style="background-image: url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/large-BLACK-SS-2-hd.webp');"></div>
+            </div>
+            <div class="tvs-featured-content">
+                <span class="tvs-featured-kicker">Featured Project 03</span>
+                <div class="tvs-spec-group">
+                    <h4>Panel Profile</h4>
+                    <p>1' Standing Seam</p>
+                </div>
+                <div class="tvs-spec-group">
+                    <h4>Color & Finish</h4>
+                    <p>Shiny Black</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="tvs-featured-row tvs-reverse">
+            <div class="tvs-featured-image-wrap">
+                <div class="tvs-featured-image" style="background-image: url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/large-ONYX-BLACK-B_B_-26GA-BLACK-SOFFIT-_-TRIM-hd.webp');"></div>
+            </div>
+            <div class="tvs-featured-content">
+                <span class="tvs-featured-kicker">Featured Project 04</span>
+                <div class="tvs-spec-group">
+                    <h4>Panel Profile</h4>
+                    <p>Board & Batten</p>
+                </div>
+                <div class="tvs-spec-group">
+                    <h4>Color & Finish</h4>
+                    <p>Board & Batten ran in Onyx Black. Trim & Soffit ran in 26 gauge Shiny Black</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="tvs-featured-row ">
+            <div class="tvs-featured-image-wrap">
+                <div class="tvs-featured-image" style="background-image: url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/image4.webp');"></div>
+            </div>
+            <div class="tvs-featured-content">
+                <span class="tvs-featured-kicker">Featured Project 05</span>
+                <div class="tvs-spec-group">
+                    <h4>Panel Profile</h4>
+                    <p>3' Tuff Rib & 7.2 Wainscot</p>
+                </div>
+                <div class="tvs-spec-group">
+                    <h4>Color & Finish</h4>
+                    <p>Roofing ran in Shiny Black, Siding ran in Wooden Concrete, & wainscot ran in Shiny Black</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="tvs-featured-row tvs-reverse">
+            <div class="tvs-featured-image-wrap">
+                <div class="tvs-featured-image" style="background-image: url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/large-SS-LT-GRAY-1-hd.webp');"></div>
+            </div>
+            <div class="tvs-featured-content">
+                <span class="tvs-featured-kicker">Featured Project 06</span>
+                <div class="tvs-spec-group">
+                    <h4>Panel Profile</h4>
+                    <p>1' Standing Seam</p>
+                </div>
+                <div class="tvs-spec-group">
+                    <h4>Color & Finish</h4>
+                    <p>Light Gray</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="tvs-featured-row ">
+            <div class="tvs-featured-image-wrap">
+                <div class="tvs-featured-image" style="background-image: url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/large-NAIVE-WOOD-B_B-hd.webp');"></div>
+            </div>
+            <div class="tvs-featured-content">
+                <span class="tvs-featured-kicker">Featured Project 07</span>
+                <div class="tvs-spec-group">
+                    <h4>Panel Profile</h4>
+                    <p>Board & Batten</p>
+                </div>
+                <div class="tvs-spec-group">
+                    <h4>Color & Finish</h4>
+                    <p>Naive Wood</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="tvs-featured-row tvs-reverse">
+            <div class="tvs-featured-image-wrap">
+                <div class="tvs-featured-image" style="background-image: url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/image9.webp');"></div>
+            </div>
+            <div class="tvs-featured-content">
+                <span class="tvs-featured-kicker">Featured Project 08</span>
+                <div class="tvs-spec-group">
+                    <h4>Panel Profile</h4>
+                    <p>3' Apex</p>
+                </div>
+                <div class="tvs-spec-group">
+                    <h4>Color & Finish</h4>
+                    <p>Siding in Wooden Concrete. Wainscot & Trim in Weathered Copper</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="tvs-featured-row ">
+            <div class="tvs-featured-image-wrap">
+                <div class="tvs-featured-image" style="background-image: url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/image8.webp');"></div>
+            </div>
+            <div class="tvs-featured-content">
+                <span class="tvs-featured-kicker">Featured Project 09</span>
+                <div class="tvs-spec-group">
+                    <h4>Panel Profile</h4>
+                    <p>Board & Batten</p>
+                </div>
+                <div class="tvs-spec-group">
+                    <h4>Color & Finish</h4>
+                    <p>Moss</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="tvs-featured-row tvs-reverse">
+            <div class="tvs-featured-image-wrap">
+                <div class="tvs-featured-image" style="background-image: url('https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/large-CORTEN-SS-2-hd.webp');"></div>
+            </div>
+            <div class="tvs-featured-content">
+                <span class="tvs-featured-kicker">Featured Project 10</span>
+                <div class="tvs-spec-group">
+                    <h4>Panel Profile</h4>
+                    <p>1' Standing Seam</p>
+                </div>
+                <div class="tvs-spec-group">
+                    <h4>Color & Finish</h4>
+                    <p>Corten</p>
+                </div>
+            </div>
+        </div>
+    
+        </section>
+
+        <section class="tvs-gallery-section" id="tvs-gallery">
+            <h2 class="tvs-section-title">Full Visual Gallery</h2>
             
             <div class="tvs-filter-container">
-                <button class="tvs-filter-btn active" data-filter="all">All Projects</button>
+                <button class="tvs-filter-btn active" data-filter="all">All Photos</button>
                 <button class="tvs-filter-btn" data-filter="residential">Residential</button>
                 <button class="tvs-filter-btn" data-filter="commercial">Commercial</button>
                 <button class="tvs-filter-btn" data-filter="interior">Interior</button>
@@ -617,7 +883,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
         <script>
-            // Dynamically extracted images from the original gallery
             const images = [
     {
         "src": "https://www.treasurevalleysteel.com/wp-content/uploads/2025/03/WTHR-COPPER-SS-1-1.webp",
@@ -972,12 +1237,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         if (filter === 'all' || img.category === filter) {
                             const item = document.createElement('div');
                             item.className = 'tvs-grid-item';
-                            item.innerHTML = `
-                                <img src="${img.src}" alt="${img.title}" loading="lazy">
-                                <div class="tvs-grid-item-overlay">
-                                    <h3>${img.title}</h3>
-                                </div>
-                            `;
+                            // The innerHTML needs to use backticks, since it's JS string inside the build script. 
+                            // In build.js, we don't escape it if we just use normal string concat, 
+                            // OR we can use backticks inside backticks if we carefully escape.
+                            // Better yet, just use single quotes + concat to avoid parsing issues!
+                            item.innerHTML = '<img src="' + img.src + '" alt="' + img.title + '" loading="lazy">' +
+                                             '<div class="tvs-grid-item-overlay">' +
+                                                 '<h3>' + img.title + '</h3>' +
+                                             '</div>';
                             
                             item.addEventListener('click', () => {
                                 lightboxImg.src = img.src;
@@ -990,7 +1257,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         }
                     });
 
-                    // We need a slight timeout to let Chrome layout the DOM elements before animating
                     setTimeout(() => {
                         ScrollTrigger.batch(items, {
                             onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: "power3.out" }),
@@ -999,26 +1265,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     }, 50);
                 }
 
-                // Initial render
                 renderGallery();
 
-                // Filtration logic
                 filters.forEach(btn => {
                     btn.addEventListener('click', () => {
                         filters.forEach(f => f.classList.remove('active'));
                         btn.classList.add('active');
                         const filterVal = btn.getAttribute('data-filter');
                         
-                        // Destroy old ScrollTriggers from grid items
-                        ScrollTrigger.getAll().forEach(t => t.kill());
+                        ScrollTrigger.getAll().forEach(t => {
+                            if(t.vars.trigger && t.vars.trigger.classList && t.vars.trigger.classList.contains('tvs-grid-item')) {
+                                t.kill();
+                            }
+                        });
                         
-                        // Fade out old, render new
                         const currentItems = document.querySelectorAll('.tvs-grid-item');
                         if(currentItems.length > 0) {
                             gsap.to(currentItems, {
-                                y: 20, opacity: 0, duration: 0.3, onComplete: () => {
-                                    renderGallery(filterVal);
-                                }
+                                y: 20, opacity: 0, duration: 0.3, onComplete: () => renderGallery(filterVal)
                             });
                         } else {
                             renderGallery(filterVal);
@@ -1026,12 +1290,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     });
                 });
 
-                // Lightbox close
-                lightboxClose.addEventListener('click', () => {
-                    lightbox.classList.remove('active');
-                });
+                lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
                 lightbox.addEventListener('click', (e) => {
                     if (e.target === lightbox) lightbox.classList.remove('active');
+                });
+                
+                // Animate featured rows
+                gsap.utils.toArray('.tvs-featured-row').forEach(row => {
+                    const img = row.querySelector('.tvs-featured-image-wrap');
+                    const content = row.querySelector('.tvs-featured-content');
+                    
+                    gsap.fromTo(img, 
+                        { opacity: 0, x: row.classList.contains('tvs-reverse') ? 50 : -50 },
+                        { opacity: 1, x: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: row, start: "top 80%" } }
+                    );
+                    
+                    gsap.fromTo(content, 
+                        { opacity: 0, x: row.classList.contains('tvs-reverse') ? -50 : 50 },
+                        { opacity: 1, x: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: row, start: "top 80%" } }
+                    );
                 });
             });
         </script>
