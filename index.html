@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features & Capabilities | Treasure Valley Steel</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* CSS Variables derived from Treasure Valley Steel */
+        :root {
+            --color-tv-blue: #0c4da2;
+            --color-tv-red: #cf2e2e;
+            --color-steel-dark: #121517;
+            --color-steel-mid: #344755;
+            --color-steel-light: #f4f6f8;
+            --color-white: #ffffff;
+            
+            --font-display: 'Montserrat', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --spacing-unit: 1rem;
+            --section-padding: clamp(4rem, 10vw, 8rem);
+            
+            --grid-guide: rgba(255,255,255,0.05);
+        }
+
+        /* Reset & Base Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-steel-dark);
+            color: var(--color-steel-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Drafting Pattern Background */
+        .drafting-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            background-image: 
+                linear-gradient(var(--grid-guide) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-guide) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        .drafting-grid::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--color-steel-dark) 100%);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            line-height: 1.1;
+            font-weight: 800;
+        }
+
+        .heading-huge {
+            font-size: clamp(3rem, 8vw, 7rem);
+            letter-spacing: -0.02em;
+        }
+
+        .heading-section {
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .text-accent {
+            color: var(--color-tv-red);
+        }
+
+        p {
+            font-size: clamp(1rem, 1.2vw, 1.125rem);
+            color: #abb8c3;
+            max-width: 60ch;
+        }
+
+        /* UI Elements */
+        .crosshair {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+        }
+        .crosshair::before, .crosshair::after {
+            content: '';
+            position: absolute;
+            background-color: var(--color-tv-red);
+        }
+        .crosshair::before { width: 100%; height: 2px; top: 50%; left: 0; transform: translateY(-50%); }
+        .crosshair::after { height: 100%; width: 2px; left: 50%; top: 0; transform: translateX(-50%); }
+
+        /* Layout Structure */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            align-items: center;
+            padding-top: 100px;
+            position: relative;
+        }
+
+        .hero-content {
+            grid-column: 1 / 8;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-image-wrapper {
+            grid-column: 7 / 13;
+            height: 80vh;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            filter: grayscale(80%) contrast(1.2);
+            opacity: 0.8;
+            transform-origin: center;
+        }
+
+        .blueprint-card {
+            background-color: rgba(18, 21, 23, 0.9);
+            border-left: 4px solid var(--color-tv-red);
+            padding: 2rem;
+            margin-top: 3rem;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            max-width: 500px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-block h4 {
+            font-size: 2.5rem;
+            color: var(--color-white);
+            font-family: var(--font-display);
+        }
+        .stat-block p {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-tv-blue);
+            font-weight: 600;
+        }
+
+        /* Capabilities Grid Section */
+        .capabilities {
+            padding: var(--section-padding) 0;
+            background-color: var(--color-white);
+            color: var(--color-steel-dark);
+            position: relative;
+        }
+
+        .capabilities p {
+            color: var(--color-steel-mid);
+        }
+
+        .cap-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .cap-item {
+            position: relative;
+            border: 1px solid #e0e0e0;
+            padding: 3rem;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 450px;
+            overflow: hidden;
+            background-color: #fafafa;
+            cursor: pointer;
+        }
+
+        .cap-item:hover {
+            border-color: var(--color-tv-blue);
+            background-color: #fff;
+        }
+        
+        .cap-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background-color: var(--color-tv-blue);
+            transition: height 0.4s ease;
+        }
+        
+        .cap-item:hover::before {
+            height: 100%;
+        }
+
+        .cap-item:nth-child(1) { grid-column: 1 / 7; }
+        .cap-item:nth-child(2) { grid-column: 7 / 13; }
+        .cap-item:nth-child(3) { grid-column: 1 / 5; }
+        .cap-item:nth-child(4) { grid-column: 5 / 13; min-height: 600px; }
+
+        .cap-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            filter: grayscale(100%);
+            transition: opacity 0.6s ease, filter 0.6s ease, transform 6s linear;
+            z-index: 0;
+        }
+
+        .cap-item:hover .cap-image {
+            opacity: 0.15;
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        .cap-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cap-number {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--color-tv-red);
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .cap-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cap-link {
+            margin-top: 2rem;
+            display: inline-flex;
+            align-items: center;
+            font-family: var(--font-display);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            color: var(--color-tv-blue);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+        }
+
+        .cap-link svg {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .cap-item:hover .cap-link svg {
+            transform: translateX(5px);
+        }
+
+        /* Large Image Showcase Section */
+        .showcase {
+            padding: var(--section-padding) 0;
+            position: relative;
+            background-color: var(--color-steel-dark);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .showcase-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .showcase-images {
+            grid-column: 1 / 8;
+            position: relative;
+            height: 800px;
+        }
+        
+        .img-main {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            left: 0;
+            top: 10%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease;
+        }
+        
+        .img-main:hover {
+            filter: grayscale(0%);
+        }
+
+        .img-secondary {
+            position: absolute;
+            width: 45%;
+            height: 50%;
+            right: 0;
+            bottom: 0;
+            object-fit: cover;
+            border: 10px solid var(--color-steel-dark);
+            box-shadow: -20px -20px 0 rgba(12, 77, 162, 0.2);
+        }
+
+        .showcase-text {
+            grid-column: 8 / 13;
+            padding-left: 4rem;
+        }
+
+        .engineered-list {
+            list-style: none;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .engineered-list li {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .list-marker {
+            font-family: var(--font-display);
+            color: var(--color-tv-red);
+            font-weight: 800;
+            min-width: 30px;
+        }
+
+        /* Call To Action */
+        .cta-section {
+            padding: var(--section-padding) 0;
+            background-color: var(--color-tv-blue);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1541888086425-d81bb19040ff?q=80&w=2069&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            mix-blend-mode: overlay;
+            opacity: 0.1;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1.25rem 3rem;
+            background-color: var(--color-white);
+            color: var(--color-tv-blue);
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 2rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 2px solid var(--color-white);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--color-white);
+        }
+
+        /* Marker UI Components */
+        .ui-line-vertical {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background-color: rgba(255,255,255,0.1);
+            top: 0;
+            left: 5%;
+            z-index: 0;
+        }
+        
+        .ui-badge {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: var(--color-tv-blue);
+            white-space: nowrap;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content { grid-column: 1 / 13; z-index: 2; margin-bottom: 4rem; }
+            .hero-image-wrapper { grid-column: 1 / 13; height: 50vh; }
+            
+            .cap-item:nth-child(n) { grid-column: 1 / 13; min-height: 350px; }
+            
+            .showcase-images, .showcase-text { grid-column: 1 / 13; }
+            .showcase-images { height: 600px; margin-bottom: 3rem; }
+            .showcase-text { padding-left: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-stats { flex-direction: column; gap: 1rem; }
+            .heading-huge { font-size: 3rem; }
+            .ui-badge, .ui-line-vertical { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Blueprint Grid -->
+    <div class="drafting-grid"></div>
+
+    <!-- UI Decorators -->
+    <div class="ui-line-vertical"></div>
+    <div class="ui-badge">STRUCTURAL INTEGRITY 1982</div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero container">
+            <div class="hero-content">
+                <span style="color: var(--color-tv-blue); font-family: var(--font-display); font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;">Treasure Valley Steel</span>
+                <h1 class="heading-huge gs-reveal">Engineered For <br><span class="text-accent">Strength.</span></h1>
+                
+                <div class="blueprint-card gs-fade-up">
+                    <p>Since 1982, we have been providing premium structural steel roofing, siding, and frameworks. Manufactured in Idaho, crafted for durability, and engineered for precision.</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-block">
+                            <h4>40+</h4>
+                            <p>Years Experience</p>
+                        </div>
+                        <div class="stat-block">
+                            <h4>2</h4>
+                            <p>Fabrication Centers</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-image-wrapper">
+                <div class="crosshair" style="top: 10px; left: 10px;"></div>
+                <div class="crosshair" style="bottom: 10px; right: 10px;"></div>
+                <img src="https://images.unsplash.com/photo-1504307651254-35680f356f58?q=80&w=2070&auto=format&fit=crop" alt="Steel Fabrication Context" class="hero-image">
+            </div>
+        </section>
+
+        <!-- Capabilities Grid -->
+        <section class="capabilities">
+            <div class="container">
+                <h2 class="heading-section gs-reveal">Core <br>Capabilities<span class="text-accent">.</span></h2>
+                <p class="gs-fade-up">Our state-of-the-art facilities produce the region's highest quality steel components for commercial, industrial, and agricultural applications.</p>
+                
+                <div class="cap-grid">
+                    <div class="cap-item gs-slide-up">
+                        <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2184&auto=format&fit=crop" alt="Steel Panels" class="cap-image">
+                        <div class="cap-content">
+                            <span class="cap-number">01 //</span>
+                            <h3 class="cap-title">Steel Roofing & Siding</h3>
+                            <p>Precision roll-formed panels engineered to withstand the harshest elements, tailored to custom lengths for seamless installation.</p>
+                            <a href="#" class="cap-link">View Details <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        </div>
+                    </div>
+                    
+                    <div class="cap-item gs-slide-up" style="transition-delay: 0.1s;">
+                        <img src="https://images.unsplash.com/photo-1541888086425-d81bb19040ff?q=80&w=2069&auto=format&fit=crop" alt="Trim Fabrication" class="cap-image">
+                        <div class="cap-content">
+                            <span class="cap-number">02 //</span>
+                            <h3 class="cap-title">Custom Trim Profiles</h3>
+                            <p>Specialized brake presses operated by master craftsmen shaping bespoke trims up to 21 feet in length.</p>
+                            <a href="#" class="cap-link">View Details <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        </div>
+                    </div>
+                    
+                    <div class="cap-item gs-slide-up">
+                        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1931&auto=format&fit=crop" alt="Structural Engineering" class="cap-image">
+                        <div class="cap-content">
+                            <span class="cap-number">03 //</span>
+                            <h3 class="cap-title">Structural <br>Frameworks</h3>
+                            <a href="#" class="cap-link">View Details <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        </div>
+                    </div>
+
+                    <div class="cap-item gs-slide-up" style="transition-delay: 0.2s;">
+                        <img src="https://images.unsplash.com/photo-1533038590840-1cbea6d6d1b2?q=80&w=2070&auto=format&fit=crop" alt="Industrial Cold Formed Buildings" class="cap-image">
+                        <div class="cap-content">
+                            <span class="cap-number">04 //</span>
+                            <h3 class="cap-title">Cold Formed<br>Buildings</h3>
+                            <p>Pre-engineered structural framing packages. From initial drafting to final on-site delivery, we manufacture components that ensure structural integrity and rapid assembly.</p>
+                            <a href="#" class="cap-link">View Details <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Showcase Architecture -->
+        <section class="showcase container">
+            <div class="showcase-container">
+                <div class="showcase-images">
+                    <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=2070&auto=format&fit=crop" alt="Steel Work" class="img-main gs-img-parallax">
+                    <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=2070&auto=format&fit=crop" alt="Welding Detail" class="img-secondary gs-img-parallax-reverse">
+                </div>
+                
+                <div class="showcase-text">
+                    <h2 class="heading-section gs-reveal">Craftsmanship<br>Meets Scale<span class="text-accent">.</span></h2>
+                    <p class="gs-fade-up">We merge industrial-grade manufacturing with meticulous attention to detail. Every panel, every weld, every structural bracket is fabricated to the highest tolerances.</p>
+                    
+                    <ul class="engineered-list">
+                        <li class="gs-fade-up">
+                            <span class="list-marker">A.</span>
+                            <div>
+                                <h4 style="color: var(--color-white); margin-bottom: 0.5rem;">Precision Roll-Forming</h4>
+                                <p style="font-size: 0.9rem;">Advanced machinery ensuring perfectly uniform profiles for maximum weather resistance.</p>
+                            </div>
+                        </li>
+                        <li class="gs-fade-up">
+                            <span class="list-marker">B.</span>
+                            <div>
+                                <h4 style="color: var(--color-white); margin-bottom: 0.5rem;">Superior Logistics</h4>
+                                <p style="font-size: 0.9rem;">Modern fleet equipped for secure, damage-free job site delivery across the Pacific Northwest.</p>
+                            </div>
+                        </li>
+                        <li class="gs-fade-up">
+                            <span class="list-marker">C.</span>
+                            <div>
+                                <h4 style="color: var(--color-white); margin-bottom: 0.5rem;">Color Guard Technology</h4>
+                                <p style="font-size: 0.9rem;">Industry-leading paint systems providing decades of protection against fading and chalking.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <div class="cta-bg"></div>
+            <div class="cta-content">
+                <h2 class="heading-section" style="color: var(--color-white);">Build With Confidence</h2>
+                <p style="color: var(--color-white); margin: 0 auto; margin-bottom: 2rem;">Partner with the region's elite steel fabrication specialists for your next structural project.</p>
+                <a href="#" class="btn">Request a Quote</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Wait for DOM
+        document.addEventListener("DOMContentLoaded", (event) => {
+            // Register GSAP ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Text Reveals
+            const reveals = document.querySelectorAll('.gs-reveal');
+            reveals.forEach(el => {
+                gsap.fromTo(el, 
+                    { y: 50, opacity: 0, clipPath: 'inset(100% 0 0 0)' },
+                    { 
+                        y: 0, 
+                        opacity: 1, 
+                        clipPath: 'inset(0% 0 0 0)',
+                        duration: 1.2, 
+                        ease: "power4.out",
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 85%",
+                        }
+                    }
+                );
+            });
+
+            // Fade Ups
+            const fadeUps = document.querySelectorAll('.gs-fade-up');
+            fadeUps.forEach(el => {
+                gsap.fromTo(el, 
+                    { y: 30, opacity: 0 },
+                    { 
+                        y: 0, 
+                        opacity: 1, 
+                        duration: 1, 
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 90%",
+                        }
+                    }
+                );
+            });
+
+            // Hero Parallax Image
+            gsap.to('.hero-image', {
+                yPercent: 20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".hero",
+                    start: "top top", 
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // Grid Items Slide Reveal
+            const gridItems = gsap.utils.toArray('.gs-slide-up');
+            gsap.fromTo(gridItems, 
+                { y: 100, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    stagger: 0.15,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: ".cap-grid",
+                        start: "top 80%"
+                    }
+                }
+            );
+
+            // Showcase Images Parallax Interaction
+            gsap.to('.img-main', {
+                yPercent: 10,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".showcase",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            gsap.to('.img-secondary', {
+                yPercent: -20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".showcase",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
